@@ -846,6 +846,7 @@ static inline struct kobject *get_glue_dir(struct device *dev)
 * sure .release handler of kobject is run with holding the
 * global lock
 */
+
 static void cleanup_glue_dir(struct device *dev, struct kobject *glue_dir)
 {
 	/* see if we live in a "glue" directory */
@@ -855,11 +856,6 @@ static void cleanup_glue_dir(struct device *dev, struct kobject *glue_dir)
 	mutex_lock(&gdp_mutex);
 	kobject_put(glue_dir);
 	mutex_unlock(&gdp_mutex);
-}
-
-static void cleanup_device_parent(struct device *dev)
-{
-	cleanup_glue_dir(dev, dev->kobj.parent);
 }
 
 static int device_add_class_symlinks(struct device *dev)
@@ -1026,6 +1022,7 @@ int device_add(struct device *dev)
 	struct class_interface *class_intf;
 	struct kobject *glue_dir = NULL;
 	int error = -EINVAL;
+	struct kobject *glue_dir = NULL;
 
 	dev = get_device(dev);
 	if (!dev)

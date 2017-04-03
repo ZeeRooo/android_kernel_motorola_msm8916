@@ -125,6 +125,10 @@ tcpmss_mangle_packet(struct sk_buff *skb,
 	if (tcp_hdrlen >= 15 * 4)
 		return 0;
 
+	/* tcph->doff has 4 bits, do not wrap it to 0 */
+	if (tcph->doff >= 15)
+		return 0;
+
 	/*
 	 * MSS Option not found ?! add it..
 	 */

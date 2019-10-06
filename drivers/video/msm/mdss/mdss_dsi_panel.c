@@ -677,8 +677,9 @@ static int mdss_dsi_set_col_page_addr(struct mdss_panel_data *pdata)
 		c_roi = &other->roi;
 	} else {
 		c_roi = &ctrl->roi;
-		roi = *p_roi;
 	}
+	
+	roi = *p_roi;
 
 	/* roi had changed, do col_page update */
 	if (!mdss_rect_cmp(c_roi, &roi)) {
